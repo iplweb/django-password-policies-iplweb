@@ -97,7 +97,7 @@ if set, otherwise the URL to the :class:`PasswordChangeDoneView`.
         checked = '_password_policies_last_checked'
         last = '_password_policies_last_changed'
         required = '_password_policies_change_required'
-        now = timezone.now()
+        now = timezone.now().strftime('%Y-%m-%dT%H:%M:%S.%f')
         self.request.session[checked] = now
         self.request.session[last] = now
         self.request.session[required] = False

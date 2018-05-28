@@ -1,12 +1,5 @@
 from django.conf.urls import url
 
-try:
-    # patterns was deprecated in Django 1.8
-    from django.conf.urls import patterns
-except ImportError:
-    # patterns is unavailable in Django 1.10+
-    patterns = False
-
 from password_policies.views import PasswordChangeFormView
 from password_policies.views import PasswordChangeDoneView
 from password_policies.views import PasswordResetCompleteView
@@ -35,7 +28,3 @@ urlpatterns = [
         PasswordResetDoneView.as_view(),
         name="password_reset_done"),
 ]
-
-if patterns:
-    # Django 1.7
-    urlpatterns = patterns('', *urlpatterns)
