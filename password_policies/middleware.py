@@ -73,7 +73,10 @@ class PasswordChangeMiddleware(MiddlewareMixin):
     expired = settings.PASSWORD_POLICIES_EXPIRED_SESSION_KEY
     last = settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY
     required = settings.PASSWORD_POLICIES_CHANGE_REQUIRED_SESSION_KEY
-    td = timedelta(seconds=settings.PASSWORD_DURATION_SECONDS)
+    try:
+        td = timedelta(seconds=settings.PASSWORD_DURATION_SECONDS)
+    except OverflowError:
+        td = timedelta.max
 
     def _check_history(self, request):
         if not request.session.get(self.last, None):
