@@ -21,7 +21,7 @@ As for now (Jan 2021), this fork is actively maintained by |iplweb|
 Requirements
 =============
 
-This application requires `Django`_ 2.2 or newer
+This application requires Python 3.10+ and `Django`_ 4.2 or newer
 
 .. _documentation:
 
