@@ -1,3 +1,3 @@
-VERSION = (0, 8, 6)
+from importlib.metadata import version
 
-__version__ = "%s.%s.%s" % VERSION
+__version__ = version("django-password-policies-iplweb")

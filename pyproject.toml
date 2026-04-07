@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=75.0"]
+requires = ["setuptools>=75.0", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-password-policies-iplweb"
-version = "0.8.6"
+dynamic = ["version"]
 description = "A Django application to implement password policies."
 readme = "README.rst"
 requires-python = ">=3.10"
@@ -60,6 +60,8 @@ addopts = "-s"
 [tool.coverage.run]
 include = ["password_policies/*"]
 omit = ["password_policies/tests/*"]
+
+[tool.setuptools_scm]
 
 [tool.setuptools.packages.find]
 include = ["password_policies*"]
