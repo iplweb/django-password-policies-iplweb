@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "django-password-policies-iplweb"
 dynamic = ["version"]
 description = "A Django application to implement password policies."
-readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.10"
 license = "BSD-3-Clause"
 authors = [
