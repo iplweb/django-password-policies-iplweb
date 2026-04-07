@@ -45,6 +45,13 @@ dev = [
 [project.urls]
 Homepage = "https://github.com/iplweb/django-password-policies-iplweb"
 
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501", "E225", "W503"]
+
 [tool.setuptools.packages.find]
 include = ["password_policies*"]
 
