@@ -52,6 +52,15 @@ target-version = "py310"
 select = ["E", "F", "W"]
 ignore = ["E501", "E225", "W503"]
 
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "password_policies.tests.test_settings"
+testpaths = ["password_policies/tests"]
+addopts = "-s"
+
+[tool.coverage.run]
+include = ["password_policies/*"]
+omit = ["password_policies/tests/*"]
+
 [tool.setuptools.packages.find]
 include = ["password_policies*"]
 
