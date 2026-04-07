@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-password-policies-iplweb"
+version = "0.8.6"
+description = "A Django application to implement password policies."
+readme = "README.rst"
+requires-python = ">=3.10"
+license = "BSD-3-Clause"
+authors = [
+    {name = "Michal Pasternak", email = "michal.dtz@gmail.com"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "django>=4.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-django",
+    "pytest-cov",
+    "freezegun",
+]
+
+[project.urls]
+Homepage = "https://github.com/iplweb/django-password-policies-iplweb"
+
+[tool.setuptools.packages.find]
+include = ["password_policies*"]
+
+[tool.setuptools.package-data]
+"password_policies" = [
+    "locale/**/*",
+    "tests/templates/**/*",
+]
