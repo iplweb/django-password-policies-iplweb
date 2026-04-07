@@ -190,6 +190,45 @@ class PasswordPoliciesChangeFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
 
+class PasswordPoliciesFormExcludedUsernamesTest(TestCase):
+    def setUp(self):
+        self.user = create_user()
+        create_password_history(self.user)
+
+    @override_settings(PASSWORD_COMPLEXITY_EXCLUDED_USERNAMES=["alice"])
+    def test_excluded_user_can_set_simple_password(self):
+        """An excluded user should be able to set a password that would
+        normally fail complexity validation (e.g. no symbols, no numbers)."""
+        data = {"new_password1": "simplepassword", "new_password2": "simplepassword"}
+        form = PasswordPoliciesForm(self.user, data)
+        self.assertTrue(form.is_valid())
+
+    @override_settings(PASSWORD_COMPLEXITY_EXCLUDED_USERNAMES=["alice"])
+    def test_excluded_user_can_reuse_password(self):
+        """An excluded user should be able to reuse a previous password."""
+        data = {"new_password1": "ooDei1Hoo+Ru", "new_password2": "ooDei1Hoo+Ru"}
+        form = PasswordPoliciesForm(self.user, data)
+        self.assertTrue(form.is_valid())
+
+    @override_settings(PASSWORD_COMPLEXITY_EXCLUDED_USERNAMES=["other_user"])
+    def test_non_excluded_user_still_validated(self):
+        """A user NOT in the excluded list should still get complexity errors."""
+        data = {"new_password1": "simplepassword", "new_password2": "simplepassword"}
+        form = PasswordPoliciesForm(self.user, data)
+        self.assertFalse(form.is_valid())
+
+    @override_settings(PASSWORD_COMPLEXITY_EXCLUDED_USERNAMES=["alice"])
+    def test_excluded_user_change_form_skips_complexity(self):
+        """An excluded user using PasswordPoliciesChangeForm should skip complexity."""
+        data = {
+            "old_password": passwords[-1],
+            "new_password1": "simplepassword",
+            "new_password2": "simplepassword",
+        }
+        form = PasswordPoliciesChangeForm(self.user, data)
+        self.assertTrue(form.is_valid())
+
+
 class PasswordResetFormTest(TestCase):
     def setUp(self):
         self.user = create_user()

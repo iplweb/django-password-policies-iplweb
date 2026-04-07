@@ -182,6 +182,8 @@ class PasswordChangeMiddleware(MiddlewareMixin):
             settings.PASSWORD_DURATION_SECONDS
             and auth
             and not self._is_excluded_path(request.path)
+            and request.user.get_username()
+            not in settings.PASSWORD_CHANGE_MIDDLEWARE_EXCLUDED_USERNAMES
         ):
             self.check = PasswordCheck(request.user)
             self.expiry_datetime = self.check.get_expiry_datetime()

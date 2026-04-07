@@ -29,6 +29,27 @@ PASSWORD_CHANGE_MIDDLEWARE_ALLOW_LOGOUT = getattr(
 PASSWORD_CHANGE_MIDDLEWARE_EXCLUDED_PATHS = getattr(
     settings, "PASSWORD_CHANGE_MIDDLEWARE_EXCLUDED_PATHS", []
 )
+#: A list of usernames to exclude from password expiry checks
+#: in the :middleware:`PasswordChangeMiddleware`.
+#: Users in this list will never be forced to change their
+#: password due to expiration.
+#:
+#: Useful for service accounts or bot users that should not
+#: be subject to password rotation policies.
+PASSWORD_CHANGE_MIDDLEWARE_EXCLUDED_USERNAMES = getattr(
+    settings, "PASSWORD_CHANGE_MIDDLEWARE_EXCLUDED_USERNAMES", []
+)
+#: A list of usernames to exclude from password complexity
+#: validation in :form:`PasswordPoliciesForm` and its subclasses.
+#: Users in this list will not have their passwords checked
+#: against complexity rules (character composition, entropy,
+#: dictionary words, etc.) or password history.
+#:
+#: Useful for service accounts or bot users that manage
+#: their own passwords programmatically.
+PASSWORD_COMPLEXITY_EXCLUDED_USERNAMES = getattr(
+    settings, "PASSWORD_COMPLEXITY_EXCLUDED_USERNAMES", []
+)
 #: Determines after how many seconds a check shall
 #: be performed if the user's password has expired.
 #:

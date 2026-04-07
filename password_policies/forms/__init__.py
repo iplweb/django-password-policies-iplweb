@@ -64,11 +64,21 @@ class PasswordPoliciesForm(forms.Form):
         :arg user: A :class:`~django.contrib.auth.models.User` instance."""
         self.user = user
         super(PasswordPoliciesForm, self).__init__(*args, **kwargs)
+        if user.get_username() in settings.PASSWORD_COMPLEXITY_EXCLUDED_USERNAMES:
+            self.fields["new_password1"] = forms.CharField(
+                label=_("New password"),
+                widget=forms.PasswordInput,
+            )
 
     def clean_new_password1(self):
         """
         Validates that a given password was not used before."""
         new_password1 = self.cleaned_data.get("new_password1")
+        if (
+            self.user.get_username()
+            in settings.PASSWORD_COMPLEXITY_EXCLUDED_USERNAMES
+        ):
+            return new_password1
         if settings.PASSWORD_USE_HISTORY:
             if self.user.check_password(new_password1):
                 raise forms.ValidationError(self.error_messages["password_used"])

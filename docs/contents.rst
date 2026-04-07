@@ -23,6 +23,7 @@ Table of contents
     topics/custom.validation
     topics/password.history
     topics/force.password.change
+    topics/excluding_users
     topics/support
     api/index
     topics/testing
