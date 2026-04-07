@@ -8,6 +8,8 @@
 A Django application that provides unicode-aware password policies on password changes
 and resets, along with a mechanism to force password changes.
 
+Originally developed by Tarak Blah as
+[django-password-policies](https://pypi.org/project/django-password-policies/).
 This fork is actively maintained by [IPLweb](https://github.com/iplweb/).
 
 <p align="center">
