@@ -1,7 +1,7 @@
 django-password-policies
 ========================
 
-|travis| |coverage| |latest-version|
+|ci| |latest-version|
 
 ``django-password-policies-iplweb`` is an application for the `Django`_ framework that
 provides unicode-aware password policies on password changes and resets and a
@@ -9,11 +9,8 @@ mechanism to force password changes.
 
 As for now (Jan 2021), this fork is actively maintained by |iplweb|
 
-.. |travis| image:: https://travis-ci.org/iplweb/django-password-policies.svg?branch=master
-    :target: https://travis-ci.org/iplweb/django-password-policies-iplweb
-
-.. |coverage| image:: https://coveralls.io/repos/iplweb/django-password-policies-iplweb/badge.svg?branch=master
-    :target: https://coveralls.io/r/iplweb/django-password-policies-iplweb?branch=master
+.. |ci| image:: https://github.com/iplweb/django-password-policies-iplweb/actions/workflows/main.yml/badge.svg
+    :target: https://github.com/iplweb/django-password-policies-iplweb/actions/workflows/main.yml
 
 .. |latest-version| image:: https://img.shields.io/pypi/v/django-password-policies-iplweb.svg
    :alt: Latest version on PyPI
