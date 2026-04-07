@@ -41,6 +41,10 @@ dev = [
     "pytest-cov",
     "freezegun",
 ]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+]
 
 [project.urls]
 Homepage = "https://github.com/iplweb/django-password-policies-iplweb"

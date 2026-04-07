@@ -7,6 +7,9 @@
 * Switch to setuptools-scm for version management
 * Consolidate test and coverage config into pyproject.toml
 * Rewrite README in Markdown with badges, version matrix, and install instructions
+* Add ability to exclude specific users from password expiry and complexity checks
+* Fix Sphinx docs: update for modern Django/Python, switch to RTD theme
+* Add Read the Docs configuration (.readthedocs.yml)
 
 0.8.6
 -----
