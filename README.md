@@ -10,6 +10,11 @@ and resets, along with a mechanism to force password changes.
 
 This fork is actively maintained by [IPLweb](https://github.com/iplweb/).
 
+<p align="center">
+<b>Support graciously provided by</b><br><br>
+<a href="https://www.iplweb.pl"><img src="https://www.iplweb.pl/images/ipl-logo-large.png" alt="IPLweb" width="150"></a>
+</p>
+
 ## Why?
 
 Django's built-in authentication provides basic password hashing and validation, but
