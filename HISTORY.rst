@@ -1,6 +1,9 @@
 0.9
 ---
 
+* Add support for Django 5.2 LTS, 6.0 and 6.1
+* Drop end-of-life Django 5.0 and 5.1 from the CI matrix
+* Fix the CI matrix actually testing the pinned Django version (``uv run --no-sync``)
 * Migrate packaging from setup.py to uv + pyproject.toml
 * Migrate CI from Travis CI to GitHub Actions
 * Replace pre-commit hooks with ruff
