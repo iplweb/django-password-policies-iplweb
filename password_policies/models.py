@@ -33,6 +33,9 @@ class PasswordChangeRequired(models.Model):
         on_delete=models.CASCADE,
     )
 
+    def __str__(self):
+        return _("Password change required for user %s") % self.user
+
     class Meta:
         get_latest_by = "created"
         ordering = ["-created"]
