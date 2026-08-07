@@ -1,3 +1,16 @@
+0.9.3 (unreleased)
+------------------
+
+* Fix the ``password_status`` context processor raising ``AttributeError`` when
+  ``request`` carries no ``user``. This happens while Django renders the 500 page
+  for an exception raised before ``AuthenticationMiddleware`` ran, and whenever a
+  template is rendered outside the request/response cycle (``RequestFactory``,
+  e-mails, management commands) — in the first case the crash masked the very
+  exception being handled. The processor now returns an empty context instead,
+  the same way Django guards ``django.contrib.auth.context_processors.auth``.
+  Thanks to `@kostrom <https://github.com/kostrom>`_ for reporting and diagnosing
+  it (`#21 <https://github.com/iplweb/django-password-policies-iplweb/pull/21>`_).
+
 0.9.2
 -----
 
