@@ -43,8 +43,15 @@ a pluggable, configurable set of policies that integrate with Django's auth syst
 | Django \ Python | 3.10 | 3.11 | 3.12 | 3.13 |
 |-----------------|------|------|------|------|
 | 4.2 LTS         | ✓    | ✓    | ✓    | ✗    |
-| 5.0             | ✓    | ✓    | ✓    | ✓    |
-| 5.1             | ✓    | ✓    | ✓    | ✓    |
+| 5.2 LTS         | ✓    | ✓    | ✓    | ✓    |
+| 6.0             | ✗    | ✗    | ✓    | ✓    |
+| 6.1             | ✗    | ✗    | ✓    | ✓    |
+
+Django 6.x requires Python 3.12 or newer.
+
+Django 5.0 and 5.1 are no longer covered by CI (both reached end of life upstream),
+but the package does not use any API removed in those series and the declared
+dependency is still `django>=4.2`, so they keep working.
 
 ## Installation
 
