@@ -1,5 +1,5 @@
-0.9.4 (unreleased)
-------------------
+0.9.4
+-----
 
 * Add ``__str__`` methods to the ``PasswordHistory`` and ``PasswordProfile``
   models, completing the work started for ``PasswordChangeRequired`` in 0.9.2.
@@ -14,8 +14,10 @@
 * Fix the ruff configuration. ``W503`` was carried over from the old flake8
   config, but ruff has no such rule, and an unknown selector makes ruff abort
   before checking anything. The lint job in CI had therefore never linted a
-  single line. Nine real violations it had been hiding are fixed, and the job
-  no longer swallows its own exit code.
+  single line — and ``ruff`` was never declared as a dependency either, so
+  ``uv run ruff`` could not find it to begin with. Nine real violations the job
+  had been hiding are fixed, ruff now ships pinned in the ``dev`` extra, and
+  the job no longer swallows its own exit code.
 
   Thanks to `@mikemanger <https://github.com/mikemanger>`_, whose
   `#39 <https://github.com/iplweb/django-password-policies-iplweb/pull/39>`_
