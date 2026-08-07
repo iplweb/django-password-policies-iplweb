@@ -6,26 +6,56 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('password_policies', '0001_initial'),
+        ("password_policies", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='PasswordProfile',
+            name="PasswordProfile",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(db_index=True, help_text='The date the entry was created.', verbose_name='created')),
-                ('last_changed', models.DateTimeField(db_index=True, help_text='The date the password was last changed.', verbose_name='last changed')),
-                ('user', models.OneToOneField(help_text='The user this password profile belongs to.', on_delete=django.db.models.deletion.CASCADE, related_name='password_profile', to=settings.AUTH_USER_MODEL, verbose_name='user')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    models.DateTimeField(
+                        db_index=True,
+                        help_text="The date the entry was created.",
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "last_changed",
+                    models.DateTimeField(
+                        db_index=True,
+                        help_text="The date the password was last changed.",
+                        verbose_name="last changed",
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        help_text="The user this password profile belongs to.",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="password_profile",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="user",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'password profile',
-                'verbose_name_plural': 'password profiles',
-                'ordering': ['-created'],
-                'get_latest_by': 'created',
+                "verbose_name": "password profile",
+                "verbose_name_plural": "password profiles",
+                "ordering": ["-created"],
+                "get_latest_by": "created",
             },
         ),
     ]

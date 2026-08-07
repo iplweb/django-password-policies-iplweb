@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 try:
     from django.utils.translation import gettext_lazy as _
 except ImportError:
@@ -14,7 +15,7 @@ def force_password_change(modeladmin, request, queryset):
         PasswordChangeRequired.objects.create(user=user)
 
     force_password_change.short_description = _(
-        "Force password change for selected" " users"
+        "Force password change for selected users"
     )
 
 

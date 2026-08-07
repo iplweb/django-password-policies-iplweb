@@ -23,6 +23,7 @@ except ImportError:
 
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+
 try:
     from django.utils.translation import gettext_lazy as _
 except ImportError:
@@ -45,7 +46,7 @@ class PasswordPoliciesForm(forms.Form):
     error_messages = {
         "password_mismatch": _("The two password fields didn't match."),
         "password_used": _(
-            "The new password was used before. " "Please enter another one."
+            "The new password was used before. Please enter another one."
         ),
     }
     new_password1 = PasswordPoliciesField(
@@ -74,10 +75,7 @@ class PasswordPoliciesForm(forms.Form):
         """
         Validates that a given password was not used before."""
         new_password1 = self.cleaned_data.get("new_password1")
-        if (
-            self.user.get_username()
-            in settings.PASSWORD_COMPLEXITY_EXCLUDED_USERNAMES
-        ):
+        if self.user.get_username() in settings.PASSWORD_COMPLEXITY_EXCLUDED_USERNAMES:
             return new_password1
         if settings.PASSWORD_USE_HISTORY:
             if self.user.check_password(new_password1):
@@ -127,11 +125,11 @@ class PasswordPoliciesChangeForm(PasswordPoliciesForm):
         PasswordPoliciesForm.error_messages,
         **{
             "password_incorrect": _(
-                "Your old password was entered incorrectly. " "Please enter it again."
+                "Your old password was entered incorrectly. Please enter it again."
             ),
             "password_similar": _("The old and the new password are too similar."),
             "password_identical": _("The old and the new password are the same."),
-        }
+        },
     )
     old_password = forms.CharField(label=_("Old password"), widget=forms.PasswordInput)
 

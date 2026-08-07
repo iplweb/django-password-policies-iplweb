@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,32 +14,89 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='PasswordChangeRequired',
+            name="PasswordChangeRequired",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(auto_now_add=True, db_index=True, help_text='The date the entry was created.', verbose_name='created')),
-                ('user', models.OneToOneField(help_text='The user who needs to change his/her password.', on_delete=django.db.models.deletion.CASCADE, related_name='password_change_required', to=settings.AUTH_USER_MODEL, verbose_name='user')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        db_index=True,
+                        help_text="The date the entry was created.",
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        help_text="The user who needs to change his/her password.",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="password_change_required",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="user",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'enforced password change',
-                'verbose_name_plural': 'enforced password changes',
-                'ordering': ['-created'],
-                'get_latest_by': 'created',
+                "verbose_name": "enforced password change",
+                "verbose_name_plural": "enforced password changes",
+                "ordering": ["-created"],
+                "get_latest_by": "created",
             },
         ),
         migrations.CreateModel(
-            name='PasswordHistory',
+            name="PasswordHistory",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(auto_now_add=True, db_index=True, help_text='The date the entry was created.', verbose_name='created')),
-                ('password', models.CharField(help_text='The encrypted password.', max_length=128, verbose_name='password')),
-                ('user', models.ForeignKey(help_text='The user this password history entry belongs to.', on_delete=django.db.models.deletion.CASCADE, related_name='password_history_entries', to=settings.AUTH_USER_MODEL, verbose_name='user')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        db_index=True,
+                        help_text="The date the entry was created.",
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "password",
+                    models.CharField(
+                        help_text="The encrypted password.",
+                        max_length=128,
+                        verbose_name="password",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        help_text="The user this password history entry belongs to.",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="password_history_entries",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="user",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'password history entry',
-                'verbose_name_plural': 'password history entries',
-                'ordering': ['-created'],
-                'get_latest_by': 'created',
+                "verbose_name": "password history entry",
+                "verbose_name_plural": "password history entries",
+                "ordering": ["-created"],
+                "get_latest_by": "created",
             },
         ),
     ]

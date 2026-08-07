@@ -4,20 +4,29 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('password_policies', '0002_passwordprofile'),
+        ("password_policies", "0002_passwordprofile"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='passwordprofile',
-            name='created',
-            field=models.DateTimeField(auto_now_add=True, db_index=True, help_text='The date the entry was created.', verbose_name='created'),
+            model_name="passwordprofile",
+            name="created",
+            field=models.DateTimeField(
+                auto_now_add=True,
+                db_index=True,
+                help_text="The date the entry was created.",
+                verbose_name="created",
+            ),
         ),
         migrations.AlterField(
-            model_name='passwordprofile',
-            name='last_changed',
-            field=models.DateTimeField(auto_now=True, db_index=True, help_text='The date the password was last changed.', verbose_name='last changed'),
+            model_name="passwordprofile",
+            name="last_changed",
+            field=models.DateTimeField(
+                auto_now=True,
+                db_index=True,
+                help_text="The date the password was last changed.",
+                verbose_name="last changed",
+            ),
         ),
     ]
