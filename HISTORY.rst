@@ -1,5 +1,5 @@
-0.9.3 (unreleased)
-------------------
+0.9.3
+-----
 
 * Fix the ``password_status`` context processor raising ``AttributeError`` when
   ``request`` carries no ``user``. This happens while Django renders the 500 page
@@ -10,6 +10,10 @@
   the same way Django guards ``django.contrib.auth.context_processors.auth``.
   Thanks to `@kostrom <https://github.com/kostrom>`_ for reporting and diagnosing
   it (`#21 <https://github.com/iplweb/django-password-policies-iplweb/pull/21>`_).
+* Publish the Sphinx documentation to GitHub Pages at
+  https://iplweb.github.io/django-password-policies-iplweb/, rebuilt from
+  ``develop`` on every push, and link it from the README
+  (`#51 <https://github.com/iplweb/django-password-policies-iplweb/pull/51>`_).
 
 0.9.2
 -----
