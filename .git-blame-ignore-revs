@@ -1,0 +1,9 @@
+# Revisions that only reformat code, listed here so `git blame` skips them.
+#
+# Enable locally with:
+#     git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# GitHub honours this file automatically in its blame view.
+
+# style: format the repository with ruff and let the lint job fail
+25ca842c39f76ddbc71206e1d1ebc7fdfef9aa61

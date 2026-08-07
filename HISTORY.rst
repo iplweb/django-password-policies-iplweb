@@ -20,6 +20,13 @@
   Thanks to `@mikemanger <https://github.com/mikemanger>`_, whose
   `#39 <https://github.com/iplweb/django-password-policies-iplweb/pull/39>`_
   first pointed at all three of these.
+* Publish to PyPI through Trusted Publishing (OIDC) instead of uploading by hand
+  with a long-lived API token
+  (`#53 <https://github.com/iplweb/django-password-policies-iplweb/pull/53>`_).
+* Record the tree-wide ``ruff format`` commit in ``.git-blame-ignore-revs`` so
+  ``git blame`` — and GitHub's blame view, which reads the file automatically —
+  skips over it
+  (`#55 <https://github.com/iplweb/django-password-policies-iplweb/pull/55>`_).
 
 0.9.3
 -----
