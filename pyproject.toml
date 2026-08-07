@@ -43,6 +43,10 @@ dev = [
     "pytest-django",
     "pytest-cov",
     "freezegun",
+    # Pinned to a minor series on purpose. `ruff format --check` gates CI, and
+    # the formatter's output changes between minor releases -- an unpinned ruff
+    # would fail the build on a day nobody touched the code.
+    "ruff~=0.15.0",
 ]
 docs = [
     "sphinx",
