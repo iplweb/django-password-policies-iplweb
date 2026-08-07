@@ -25,11 +25,16 @@ in a project's settings file::
     )
 """
     d = {}
-    auth = request.user.is_authenticated
-    if callable(auth):  # Before Django 1.10
-        auth = auth()
-
-    if auth:
+    # `request.user` only exists once AuthenticationMiddleware has run. It is
+    # missing while Django renders the 500 page for an exception raised earlier
+    # in the middleware chain, and whenever a template is rendered outside the
+    # request/response cycle (RequestFactory, e-mails, management commands).
+    # Raising here would mask the exception actually being handled, so bail out
+    # quietly instead -- exactly what Django does in its own auth context
+    # processor. `None` is not something Django produces, but third-party auth
+    # middleware does; see https://github.com/iplweb/django-password-policies-iplweb/pull/21
+    user = getattr(request, "user", None)
+    if user is not None and user.is_authenticated:
         if settings.PASSWORD_POLICIES_CHANGE_REQUIRED_SESSION_KEY not in request.session:
             r = PasswordHistory.objects.change_required(request.user)
         else:
