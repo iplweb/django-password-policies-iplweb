@@ -1,9 +1,18 @@
+0.9.1
+-----
+
+* Add support for Django 5.2 LTS, 6.0 and 6.1 — three series the package had
+  fallen behind on; the supported matrix previously stopped at 5.1
+* Drop end-of-life Django 5.0 and 5.1 from the CI matrix
+* Fix the CI matrix actually testing the pinned Django version: ``uv run``
+  re-synced the environment from the project metadata (``django>=4.2``) and
+  silently replaced the version pinned by the preceding ``uv pip install``, so
+  every cell was really testing the newest Django. ``uv run --no-sync`` plus an
+  explicit ``uv sync`` makes the matrix mean what it says.
+
 0.9
 ---
 
-* Add support for Django 5.2 LTS, 6.0 and 6.1
-* Drop end-of-life Django 5.0 and 5.1 from the CI matrix
-* Fix the CI matrix actually testing the pinned Django version (``uv run --no-sync``)
 * Migrate packaging from setup.py to uv + pyproject.toml
 * Migrate CI from Travis CI to GitHub Actions
 * Replace pre-commit hooks with ruff
