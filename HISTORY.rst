@@ -1,3 +1,14 @@
+0.9.2
+-----
+
+* Add a ``__str__`` method to the ``PasswordChangeRequired`` model, returning a
+  translatable ``"Password change required for user %s"`` description. Previously
+  such objects rendered in the admin and in the shell as
+  ``PasswordChangeRequired object (1)``, giving no clue which user they concerned
+  (closes `#44 <https://github.com/iplweb/django-password-policies-iplweb/issues/44>`_).
+  Thanks to `@dragondive <https://github.com/dragondive>`_ for the contribution
+  (`#47 <https://github.com/iplweb/django-password-policies-iplweb/pull/47>`_).
+
 0.9.1
 -----
 
