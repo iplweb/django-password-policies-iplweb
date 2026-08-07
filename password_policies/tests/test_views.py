@@ -16,6 +16,7 @@ from password_policies.utils import string_to_datetime, datetime_to_string
 
 from freezegun import freeze_time
 
+
 class PasswordChangeViewsTestCase(TestCase):
     def setUp(self):
         self.user = create_user()
@@ -52,7 +53,9 @@ class PasswordChangeViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context["form"].is_valid())
         if DJANGO_VERSION > (4, 1):
-            self.assertFormError(response.context["form"], field="old_password", errors=msg)
+            self.assertFormError(
+                response.context["form"], field="old_password", errors=msg
+            )
         else:
             self.assertFormError(response, "form", field="old_password", errors=msg)
         self.client.logout()
@@ -89,12 +92,14 @@ class PasswordChangeViewsTestCase(TestCase):
         )
         assert res.status_code == 200
 
-    @override_settings(AUTH_PASSWORD_VALIDATORS=[
-        {
-            "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-            "OPTIONS": {"min_length": 20},
-        }
-    ])
+    @override_settings(
+        AUTH_PASSWORD_VALIDATORS=[
+            {
+                "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+                "OPTIONS": {"min_length": 20},
+            }
+        ]
+    )
     def test_password_change_wrong_validators(self):
         """
         A ``POST`` to the ``change_email_create`` view with valid data properly
@@ -106,13 +111,15 @@ class PasswordChangeViewsTestCase(TestCase):
             "new_password1": "Chah+pher9k",
             "new_password2": "Chah+pher9k",
         }
-        msg = 'This password is too short. It must contain at least 20 characters.'
+        msg = "This password is too short. It must contain at least 20 characters."
         self.client.login(username="alice", password=data["old_password"])
         response = self.client.post(reverse("password_change"), data=data)
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context["form"].is_valid())
         if DJANGO_VERSION > (4, 1):
-            self.assertFormError(response.context["form"], field="new_password2", errors=msg)
+            self.assertFormError(
+                response.context["form"], field="new_password2", errors=msg
+            )
         else:
             self.assertFormError(response, "form", field="new_password2", errors=msg)
         self.client.logout()
@@ -125,8 +132,11 @@ class PasswordChangeViewsTestCase(TestCase):
         )
         assert res.status_code == 200
 
-    @skipIf(DJANGO_VERSION >= (5, 0), 'PickleSerializer not supported in this version')
-    @override_settings(SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer', USE_TZ=False)
+    @skipIf(DJANGO_VERSION >= (5, 0), "PickleSerializer not supported in this version")
+    @override_settings(
+        SESSION_SERIALIZER="django.contrib.sessions.serializers.PickleSerializer",
+        USE_TZ=False,
+    )
     @freeze_time("2021-07-21T17:00:00.000000")
     def test_pickle_serializer_set_datetime_USE_TZ_false(self):
         data = {
@@ -139,24 +149,47 @@ class PasswordChangeViewsTestCase(TestCase):
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
 
-    @skipIf(DJANGO_VERSION >= (5, 0), 'PickleSerializer not supported in this version')
-    @override_settings(SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer', USE_TZ=True)
+    @skipIf(DJANGO_VERSION >= (5, 0), "PickleSerializer not supported in this version")
+    @override_settings(
+        SESSION_SERIALIZER="django.contrib.sessions.serializers.PickleSerializer",
+        USE_TZ=True,
+    )
     @freeze_time("2021-07-21T17:00:00.000000")
     def test_pickle_serializer_set_datetime_USE_TZ_true(self):
         data = {
@@ -169,24 +202,47 @@ class PasswordChangeViewsTestCase(TestCase):
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000+0000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000+0000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000+0000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000+0000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
 
-    @skipIf(DJANGO_VERSION >= (5, 0), 'PickleSerializer not supported in this version')
-    @override_settings(SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer', USE_TZ=True)
+    @skipIf(DJANGO_VERSION >= (5, 0), "PickleSerializer not supported in this version")
+    @override_settings(
+        SESSION_SERIALIZER="django.contrib.sessions.serializers.PickleSerializer",
+        USE_TZ=True,
+    )
     @freeze_time("2021-07-21T18:00:00.000000+0100")
     def test_pickle_serializer_set_datetime_USE_TZ_true_localized(self):
         data = {
@@ -199,23 +255,46 @@ class PasswordChangeViewsTestCase(TestCase):
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000+0000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000+0000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000+0000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000+0000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
 
-    @override_settings(SESSION_SERIALIZER='django.contrib.sessions.serializers.JSONSerializer', USE_TZ=False)
+    @override_settings(
+        SESSION_SERIALIZER="django.contrib.sessions.serializers.JSONSerializer",
+        USE_TZ=False,
+    )
     @freeze_time("2021-07-21T17:00:00.000000")
     def test_json_serializer_set_datetime_USE_TZ_false(self):
         data = {
@@ -228,23 +307,46 @@ class PasswordChangeViewsTestCase(TestCase):
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
 
-    @override_settings(SESSION_SERIALIZER='django.contrib.sessions.serializers.JSONSerializer', USE_TZ=True)
+    @override_settings(
+        SESSION_SERIALIZER="django.contrib.sessions.serializers.JSONSerializer",
+        USE_TZ=True,
+    )
     @freeze_time("2021-07-21T17:00:00.000000")
     def test_json_serializer_set_datetime_USE_TZ_true(self):
         data = {
@@ -257,24 +359,46 @@ class PasswordChangeViewsTestCase(TestCase):
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000+0000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000+0000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000+0000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000+0000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
 
-
-    @override_settings(SESSION_SERIALIZER='django.contrib.sessions.serializers.JSONSerializer', USE_TZ=True)
+    @override_settings(
+        SESSION_SERIALIZER="django.contrib.sessions.serializers.JSONSerializer",
+        USE_TZ=True,
+    )
     @freeze_time("2021-07-21T18:00:00.000000+0100")
     def test_json_serializer_set_datetime_USE_TZ_true_localized(self):
         data = {
@@ -287,21 +411,41 @@ class PasswordChangeViewsTestCase(TestCase):
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000+0000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000+0000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
-        self.assertIsInstance(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str)
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         datetime_to_string(timezone.now()))
-        self.assertEqual(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
-                         "2021-07-21T17:00:00.000000+0000")
-        self.assertEqual(string_to_datetime(session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]),
-                         timezone.now())
+        self.assertIsInstance(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY], str
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            datetime_to_string(timezone.now()),
+        )
+        self.assertEqual(
+            session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY],
+            "2021-07-21T17:00:00.000000+0000",
+        )
+        self.assertEqual(
+            string_to_datetime(
+                session[settings.PASSWORD_POLICIES_LAST_CHANGED_SESSION_KEY]
+            ),
+            timezone.now(),
+        )
 
 
 class TestLOMixinView(TestCase):

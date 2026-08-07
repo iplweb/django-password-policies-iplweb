@@ -36,6 +36,7 @@ from password_policies.forms import (
 )
 from password_policies.utils import datetime_to_string
 
+
 class LoggedOutMixin(View):
     """
     A view mixin which verifies that the user has not authenticated.

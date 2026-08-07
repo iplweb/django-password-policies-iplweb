@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import signals
 from django.utils import timezone
+
 try:
     from django.utils.translation import gettext_lazy as _
 except ImportError:
@@ -23,12 +24,12 @@ class PasswordChangeRequired(models.Model):
         auto_now_add=True,
         verbose_name=_("created"),
         db_index=True,
-        help_text=_("The date the entry was " "created."),
+        help_text=_("The date the entry was created."),
     )
     user = models.OneToOneField(
         django_settings.AUTH_USER_MODEL,
         verbose_name=_("user"),
-        help_text=_("The user who needs to change " "his/her password."),
+        help_text=_("The user who needs to change his/her password."),
         related_name="password_change_required",
         on_delete=models.CASCADE,
     )
@@ -53,7 +54,7 @@ class PasswordHistory(models.Model):
         auto_now_add=True,
         verbose_name=_("created"),
         db_index=True,
-        help_text=_("The date the entry was " "created."),
+        help_text=_("The date the entry was created."),
     )
     password = models.CharField(
         max_length=128,
@@ -63,7 +64,7 @@ class PasswordHistory(models.Model):
     user = models.ForeignKey(
         django_settings.AUTH_USER_MODEL,
         verbose_name=_("user"),
-        help_text=_("The user this password history " "entry belongs to."),
+        help_text=_("The user this password history entry belongs to."),
         related_name="password_history_entries",
         on_delete=models.CASCADE,
     )
@@ -94,7 +95,7 @@ class PasswordProfile(models.Model):
     created = models.DateTimeField(
         verbose_name=_("created"),
         db_index=True,
-        help_text=_("The date the entry was " "created."),
+        help_text=_("The date the entry was created."),
         auto_now_add=True,
     )
     last_changed = models.DateTimeField(
@@ -106,13 +107,15 @@ class PasswordProfile(models.Model):
     user = models.OneToOneField(
         django_settings.AUTH_USER_MODEL,
         verbose_name=_("user"),
-        help_text=_("The user this password profile " "belongs to."),
+        help_text=_("The user this password profile belongs to."),
         related_name="password_profile",
         on_delete=models.CASCADE,
     )
 
     def __str__(self):
-        return _("Password profile for user %(user)s, last changed %(last_changed)s") % {
+        return _(
+            "Password profile for user %(user)s, last changed %(last_changed)s"
+        ) % {
             "user": self.user,
             "last_changed": self.last_changed,
         }
