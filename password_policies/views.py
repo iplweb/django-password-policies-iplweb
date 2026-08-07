@@ -34,7 +34,7 @@ from password_policies.forms import (
     PasswordPoliciesForm,
     PasswordResetForm,
 )
-from password_policies.utils import string_to_datetime, datetime_to_string
+from password_policies.utils import datetime_to_string
 
 class LoggedOutMixin(View):
     """

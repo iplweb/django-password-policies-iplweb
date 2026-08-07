@@ -55,10 +55,18 @@ Homepage = "https://github.com/iplweb/django-password-policies-iplweb"
 
 [tool.ruff]
 target-version = "py310"
+# South migrations are frozen historical artefacts from the Django 1.7 era.
+# They are never imported or executed; rewriting them to please a linter would
+# only risk changing what they record.
+exclude = ["password_policies/south_migrations"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W"]
-ignore = ["E501", "E225", "W503"]
+# E501 (line length) and E225 (whitespace around operators) are left to
+# `ruff format`. W503 used to be listed here as well, carried over from the
+# flake8 config -- ruff has no such rule, and an unknown selector makes ruff
+# abort before checking anything at all.
+ignore = ["E501", "E225"]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "password_policies.tests.test_settings"

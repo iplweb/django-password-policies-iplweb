@@ -135,7 +135,7 @@ class PasswordChangeViewsTestCase(TestCase):
             "new_password2": "Chah+pher9k",
         }
         self.client.login(username="alice", password=data["old_password"])
-        response = self.client.post(reverse("password_change"), data=data)
+        self.client.post(reverse("password_change"), data=data)
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
@@ -165,7 +165,7 @@ class PasswordChangeViewsTestCase(TestCase):
             "new_password2": "Chah+pher9k",
         }
         self.client.login(username="alice", password=data["old_password"])
-        response = self.client.post(reverse("password_change"), data=data)
+        self.client.post(reverse("password_change"), data=data)
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
@@ -195,7 +195,7 @@ class PasswordChangeViewsTestCase(TestCase):
             "new_password2": "Chah+pher9k",
         }
         self.client.login(username="alice", password=data["old_password"])
-        response = self.client.post(reverse("password_change"), data=data)
+        self.client.post(reverse("password_change"), data=data)
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
@@ -224,7 +224,7 @@ class PasswordChangeViewsTestCase(TestCase):
             "new_password2": "Chah+pher9k",
         }
         self.client.login(username="alice", password=data["old_password"])
-        response = self.client.post(reverse("password_change"), data=data)
+        self.client.post(reverse("password_change"), data=data)
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
@@ -253,7 +253,7 @@ class PasswordChangeViewsTestCase(TestCase):
             "new_password2": "Chah+pher9k",
         }
         self.client.login(username="alice", password=data["old_password"])
-        response = self.client.post(reverse("password_change"), data=data)
+        self.client.post(reverse("password_change"), data=data)
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]
@@ -283,7 +283,7 @@ class PasswordChangeViewsTestCase(TestCase):
             "new_password2": "Chah+pher9k",
         }
         self.client.login(username="alice", password=data["old_password"])
-        response = self.client.post(reverse("password_change"), data=data)
+        self.client.post(reverse("password_change"), data=data)
         session = self.client.session
 
         # Assert session[settings.PASSWORD_POLICIES_LAST_CHECKED_SESSION_KEY]

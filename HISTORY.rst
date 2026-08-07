@@ -1,3 +1,26 @@
+0.9.4 (unreleased)
+------------------
+
+* Add ``__str__`` methods to the ``PasswordHistory`` and ``PasswordProfile``
+  models, completing the work started for ``PasswordChangeRequired`` in 0.9.2.
+  History entries and profiles rendered in the admin as
+  ``PasswordHistory object (1)``; they now name the user, and history entries
+  also carry their creation date, since a user has many of them.
+* Drop the Django 1.x compatibility shims from ``password_policies.urls`` and
+  use ``path()`` for the five static routes. The password reset confirmation
+  route stays a ``re_path()`` — it passes its three components positionally and
+  constrains their length, which ``path()`` converters cannot express. The
+  published URLs are unchanged and are now pinned by tests.
+* Fix the ruff configuration. ``W503`` was carried over from the old flake8
+  config, but ruff has no such rule, and an unknown selector makes ruff abort
+  before checking anything. The lint job in CI had therefore never linted a
+  single line. Nine real violations it had been hiding are fixed, and the job
+  no longer swallows its own exit code.
+
+  Thanks to `@mikemanger <https://github.com/mikemanger>`_, whose
+  `#39 <https://github.com/iplweb/django-password-policies-iplweb/pull/39>`_
+  first pointed at all three of these.
+
 0.9.3
 -----
 

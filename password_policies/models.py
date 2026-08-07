@@ -70,6 +70,14 @@ class PasswordHistory(models.Model):
 
     objects = PasswordHistoryManager()
 
+    def __str__(self):
+        # A user has many history entries, so the date is what tells them apart
+        # in the admin change list.
+        return _("Password history entry for user %(user)s created %(created)s") % {
+            "user": self.user,
+            "created": self.created,
+        }
+
     class Meta:
         get_latest_by = "created"
         ordering = ["-created"]
@@ -102,6 +110,12 @@ class PasswordProfile(models.Model):
         related_name="password_profile",
         on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        return _("Password profile for user %(user)s, last changed %(last_changed)s") % {
+            "user": self.user,
+            "last_changed": self.last_changed,
+        }
 
     class Meta:
         get_latest_by = "created"
