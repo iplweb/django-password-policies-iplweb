@@ -49,7 +49,7 @@ class PasswordChangeMiddleware(MiddlewareMixin):
         )
 
 
-    or ``MIDDLEWARE`` if using Django 1.10 or higher:
+    or ``MIDDLEWARE`` if using Django 1.10 or higher::
 
         MIDDLEWARE = (
             'django.middleware.common.CommonMiddleware',

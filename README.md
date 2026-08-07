@@ -1,6 +1,7 @@
 # django-password-policies-iplweb
 
 [![Tests](https://github.com/iplweb/django-password-policies-iplweb/actions/workflows/main.yml/badge.svg)](https://github.com/iplweb/django-password-policies-iplweb/actions/workflows/main.yml)
+[![Docs](https://github.com/iplweb/django-password-policies-iplweb/actions/workflows/docs.yml/badge.svg)](https://iplweb.github.io/django-password-policies-iplweb/)
 [![PyPI Version](https://img.shields.io/pypi/v/django-password-policies-iplweb.svg)](https://pypi.org/project/django-password-policies-iplweb/)
 [![Python Version](https://img.shields.io/pypi/pyversions/django-password-policies-iplweb.svg)](https://pypi.org/project/django-password-policies-iplweb/)
 [![License](https://img.shields.io/pypi/l/django-password-policies-iplweb.svg)](LICENSE)
@@ -110,6 +111,24 @@ urlpatterns = [
     ...
     path("password/", include("password_policies.urls")),
 ]
+```
+
+## Documentation
+
+Full documentation is published at
+**<https://iplweb.github.io/django-password-policies-iplweb/>** and rebuilt from
+`develop` on every push.
+
+- [Overview](https://iplweb.github.io/django-password-policies-iplweb/topics/overview.html)
+- [Setup](https://iplweb.github.io/django-password-policies-iplweb/topics/setup.html)
+- [Settings reference](https://iplweb.github.io/django-password-policies-iplweb/api/password_policies.conf.html)
+- [Writing custom validators](https://iplweb.github.io/django-password-policies-iplweb/topics/custom.validation.html)
+
+To build the docs locally:
+
+```bash
+uv sync --all-extras
+uv run sphinx-build -b html docs docs/_build/html
 ```
 
 ## License

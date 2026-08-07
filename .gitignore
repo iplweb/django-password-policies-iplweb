@@ -85,3 +85,6 @@ GitHub.sublime-settings
 
 # uv
 uv.lock
+
+# Sphinx build output
+docs/_build/

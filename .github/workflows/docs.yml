@@ -1,0 +1,75 @@
+name: Docs
+
+on:
+  push:
+    branches:
+    - develop
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build documentation
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+
+    - name: Set up Python
+      run: uv python install 3.13
+
+    - name: Install dependencies
+      run: uv sync --all-extras
+
+    # --no-sync for the same reason as in main.yml: a plain `uv run` re-syncs
+    # the environment from the project metadata and would undo the install above.
+    # -W turns Sphinx warnings into errors so that a broken autodoc target or a
+    # malformed docstring fails the build instead of silently publishing a page
+    # with a hole in it; --keep-going reports every warning in one run.
+    - name: Build HTML
+      run: uv run --no-sync sphinx-build -b html -W --keep-going docs docs/_build/html
+
+    # Without this file GitHub runs the output through Jekyll, which drops every
+    # directory whose name starts with an underscore -- that is _static/ and
+    # _sources/, i.e. all of the CSS and the "show source" links.
+    - name: Disable Jekyll processing
+      run: touch docs/_build/html/.nojekyll
+
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: docs/_build/html
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    # Pull requests -- including those from forks -- only get the build job
+    # above. Deployment is reserved for develop so that a fork PR can never
+    # publish to the project's Pages site.
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Deployments are serialised rather than cancelled: cancelling an
+    # in-flight deploy can leave the site half-published.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+
+    steps:
+    - name: Deploy
+      id: deployment
+      uses: actions/deploy-pages@v4
