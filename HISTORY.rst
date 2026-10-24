@@ -1,5 +1,5 @@
-Unreleased
-----------
+0.9.5
+-----
 
 * ``PASSWORD_DURATION_SECONDS = 0`` now switches password expiry off
   everywhere. The middleware already skipped its checks for a zero duration,
