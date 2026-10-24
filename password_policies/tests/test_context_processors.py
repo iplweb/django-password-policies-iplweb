@@ -1,3 +1,6 @@
+from unittest import mock
+
+
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest
 from django.test import TestCase
@@ -60,3 +63,17 @@ class PasswordStatusContextProcessorTest(TestCase):
         request.session = {settings.PASSWORD_POLICIES_CHANGE_REQUIRED_SESSION_KEY: True}
 
         self.assertEqual({"password_change_required": True}, password_status(request))
+
+    def test_zero_duration_never_reports_change_required(self):
+        # PASSWORD_DURATION_SECONDS = 0 is how a project switches expiry off --
+        # the middleware already treats it that way. The context processor
+        # used to compute `now - timedelta(0)`, so every password counted as
+        # expired and every page showed the "your password expired" callout.
+        request = HttpRequest()
+        request.user = create_user()
+        request.session = {}
+
+        with mock.patch.object(settings, "PASSWORD_DURATION_SECONDS", 0):
+            self.assertEqual(
+                {"password_change_required": False}, password_status(request)
+            )

@@ -36,6 +36,10 @@ class PasswordHistoryManager(models.Manager):
             ``False`` otherwise.
         :rtype: bool
         """
+        # A zero (or unset) duration switches expiry off, matching the
+        # middleware -- `now - timedelta(0)` would expire every password.
+        if not settings.PASSWORD_DURATION_SECONDS:
+            return False
         newest = self.get_newest(user)
         if newest:
             last_change = newest.created

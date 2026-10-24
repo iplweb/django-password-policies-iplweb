@@ -1,3 +1,6 @@
+from unittest import mock
+
+
 from django.test import TestCase
 
 from password_policies.conf import settings
@@ -50,3 +53,13 @@ class ModelStrTestCase(TestCase):
     def test_password_profile_str_identifies_the_user(self):
         profile = PasswordProfile.objects.get(user=self.user)
         self.assertIn("alice", str(profile))
+
+
+class PasswordHistoryChangeRequiredZeroDurationTest(TestCase):
+    def test_zero_duration_disables_expiry(self):
+        # `create_user` backdates `date_joined` past the default expiry
+        user = create_user()
+        self.assertTrue(PasswordHistory.objects.change_required(user))
+
+        with mock.patch.object(settings, "PASSWORD_DURATION_SECONDS", 0):
+            self.assertFalse(PasswordHistory.objects.change_required(user))
