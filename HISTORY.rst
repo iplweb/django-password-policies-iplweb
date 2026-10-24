@@ -1,3 +1,12 @@
+Unreleased
+----------
+
+* ``PASSWORD_DURATION_SECONDS = 0`` now switches password expiry off
+  everywhere. The middleware already skipped its checks for a zero duration,
+  but ``PasswordHistory.objects.change_required()`` -- and therefore the
+  ``password_status`` context processor and ``PasswordCheck.is_expired()`` --
+  computed ``now - timedelta(0)`` and reported every password as expired.
+
 0.9.4
 -----
 

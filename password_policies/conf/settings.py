@@ -92,7 +92,7 @@ PASSWORD_CHECK_ONLY_AT_LOGIN = getattr(settings, "PASSWORD_CHECK_ONLY_AT_LOGIN",
 #: Determines after how many seconds a user is forced
 #: to change his/her password.
 #:
-#: Defaults to 60 days.
+#: Defaults to 60 days. Set it to ``0`` to switch password expiry off.
 PASSWORD_DURATION_SECONDS = getattr(settings, "PASSWORD_DURATION_SECONDS", 24 * 60**3)
 #: The field on the user model as defined by settings.AUTH_USER_MODEL
 #: where the password is stored.
